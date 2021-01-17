@@ -1,0 +1,8 @@
+# no virtual enviroments
+.env/
+.venv/
+
+# no data in repository
+origins/*
+processed/*
+
