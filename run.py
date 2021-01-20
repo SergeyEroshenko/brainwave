@@ -30,7 +30,7 @@ name, ext = os.path.splitext(file_name)
 ext = ext.replace('.', '')
 save_name = f'{name}_{bias}.{ext}'
 # read audio file
-track = AudioSegment.from_file(path, format=ext)#, frame_rate=44100, channels=2, sample_width=2)
+track = AudioSegment.from_file(path, format=ext)
 frame_rate = track.frame_rate
 sample_width = track.sample_width
 # generate two sine waves tracks
