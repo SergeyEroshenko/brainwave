@@ -27,9 +27,12 @@ except Exception as ex:
 
 file_name = os.path.basename(path)
 name, ext = os.path.splitext(file_name)
-save_name = f'{name}_{bias}{ext}'
+ext = ext.replace('.', '')
+save_name = f'{name}_{bias}.{ext}'
 # read audio file
-track = AudioSegment.from_mp3(path)
+track = AudioSegment.from_file(path, format=ext)#, frame_rate=44100, channels=2, sample_width=2)
+frame_rate = track.frame_rate
+sample_width = track.sample_width
 # generate two sine waves tracks
 base_tone = Sine(freq=200).to_audio_segment(duration=len(track))
 up_tone = Sine(freq=200 + bias).to_audio_segment(duration=len(track))
@@ -39,5 +42,6 @@ add_sounds = AudioSegment.from_mono_audiosegments(base_tone, up_tone)
 add_sounds = add_sounds + track.dBFS - 6
 # mixing all
 combined = add_sounds.overlay(track)
+combined = combined.set_frame_rate(frame_rate).set_sample_width(sample_width)
 # save mix to file
-combined.export(os.path.join('processed', save_name), format='mp3')
+combined.export(os.path.join('processed', save_name), format=ext)
